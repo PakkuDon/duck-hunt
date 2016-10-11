@@ -16,8 +16,8 @@ var newPlayer = function(name) {
     increaseScore: function(value) {
       score += value;
     },
-    setPlaying: function(isPlaying) {
-      isPlaying = isPlaying;
+    setPlaying: function(flag) {
+      isPlaying = flag;
     }
   }
 };

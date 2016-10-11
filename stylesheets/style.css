@@ -28,14 +28,20 @@ main {
 }
 
 #game {
-  border-radius: 15px;
-  border: 10px solid #333;
+  border: 10px solid #000;
+  background-color: #000;
   margin: 50px auto;
   width: 520px;
   height: 400px;
   box-shadow: 0px -50px 400px #000,
     0px 50px 300px #FFF;
+}
+
+#screen {
+  border-radius: 15px;
+  border: 10px solid #333;
   position: relative;
+  height: 100%;
 }
 
 #duck {
@@ -47,6 +53,22 @@ main {
 
 #dog {
   position: absolute;
+}
+
+#player-stats {
+  background-color: #000;
+}
+
+#player-stats > div {
+  display: inline-block;
+  width: 49%;
+  margin: 0.5%;
+  border: 1px solid #EEE;
+}
+
+#player-stats .lost {
+  color: #900;
+  border-color: #900;
 }
 
 @media (max-width: 480px) {

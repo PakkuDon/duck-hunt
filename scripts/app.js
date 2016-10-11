@@ -2,20 +2,44 @@
 var duckElem = document.querySelector('#duck');
 var dogElem = document.querySelector('#dog');
 var gameElem = document.querySelector('#game');
+var playerStatsElem = document.querySelector('#player-stats');
 
 var players = [newPlayer('Bobby'), newPlayer('Tables')];
-var duckHuntGame = newDuckHuntGame(500, 200, players);
+var game = newDuckHuntGame(500, 200, players);
+
+var updateUI = function() {
+  // Show player details
+  playerStatsElem.innerHTML = '';
+  var players = game.getPlayers();
+  players.forEach(function(player) {
+    var playerDiv = document.createElement('div');
+    playerDiv.innerHTML = '<div>Player: ' + player.getName() + '</div>';
+    playerDiv.innerHTML += '<div>Score: ' + player.getScore() + '</div>';
+
+    if (!player.isPlaying()) {
+      playerDiv.className = 'lost';
+    }
+
+    playerStatsElem.appendChild(playerDiv);
+  });
+
+  // Show current round state
+}
 
 // Register event handlers
 var intervalID = setInterval(function() {
-  duckHuntGame.tick();
-  duckElem.style.left = duckHuntGame.getDuck().getX() - duckElem.clientWidth / 2 + 'px';
-  duckElem.style.top = duckHuntGame.getDuck().getY() - duckElem.clientHeight / 2 + 'px';
-}, duckHuntGame.getClockSpeed());
+  game.tick();
+  duckElem.style.left = game.getDuck().getX() - duckElem.clientWidth / 2 + 'px';
+  duckElem.style.top = game.getDuck().getY() - duckElem.clientHeight / 2 + 'px';
+
+  updateUI();
+}, game.getClockSpeed());
 
 gameElem.addEventListener('click', function(e) {
   var clickX = e.pageX - gameElem.offsetLeft - duckElem.clientWidth / 2 ;
   var clickY = e.pageY - gameElem.offsetTop - duckElem.clientHeight / 2 ;
 
-  console.log(duckHuntGame.shoot(clickX, clickY));
+  console.log(game.shoot(clickX, clickY));
+
+  updateUI();
 });
