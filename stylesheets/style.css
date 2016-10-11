@@ -63,12 +63,17 @@ main {
   display: inline-block;
   width: 49%;
   margin: 0.5%;
-  border: 1px solid #EEE;
+  border-width: 1px;
+  border-style: solid;
+  color: #999;
+}
+
+#player-stats .current {
+  color: #FFF;
 }
 
 #player-stats .lost {
   color: #900;
-  border-color: #900;
 }
 
 @media (max-width: 480px) {

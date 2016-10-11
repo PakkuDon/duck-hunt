@@ -27,6 +27,9 @@ var newDuckHuntGame = function(width, height, players) {
     getPlayers: function() {
       return players;
     },
+    getCurrentPlayer: function() {
+      return currentPlayerNo;
+    },
     isRunning: function() {
       return players.filter(function(player) {
         return player.isPlaying();
@@ -54,8 +57,38 @@ var newDuckHuntGame = function(width, height, players) {
       if (isShot) {
         players[currentPlayerNo].increaseScore(targetPoints);
         ammoRemaining = maxAmmo;
+        currentPlayerNo++;
       }
-      
+      else {
+        // Update ammo remaining
+        ammoRemaining--;
+        // If out of ammo, disqualify player and move to next player
+        if (ammoRemaining === 0) {
+          console.log('test');
+          players[currentPlayerNo].setPlaying(false);
+          currentPlayerNo++;
+          ammoRemaining = maxAmmo;
+        }
+      }
+
+      // If all remaining players have cleared round,
+      // get next available player
+      if (currentPlayerNo >= players.length) {
+        currentPlayerNo = -1;
+        for (var i = 0; i < players.length; i++) {
+          if (players[i].isPlaying()) {
+            currentPlayerNo = i;
+            break;
+          }
+        }
+
+        // If any players remaining, move to next round
+        if (currentPlayerNo !== -1) {
+          round++;
+          clockSpeed -= 10;
+        }
+      }
+
       return isShot;
     }
   };

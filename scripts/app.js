@@ -11,13 +11,17 @@ var updateUI = function() {
   // Show player details
   playerStatsElem.innerHTML = '';
   var players = game.getPlayers();
-  players.forEach(function(player) {
+  players.forEach(function(player, index) {
     var playerDiv = document.createElement('div');
     playerDiv.innerHTML = '<div>Player: ' + player.getName() + '</div>';
     playerDiv.innerHTML += '<div>Score: ' + player.getScore() + '</div>';
 
+    // Highlight defeated or current player
     if (!player.isPlaying()) {
       playerDiv.className = 'lost';
+    }
+    else if (index === game.getCurrentPlayer()) {
+      playerDiv.className = 'current';
     }
 
     playerStatsElem.appendChild(playerDiv);
