@@ -40,11 +40,6 @@ var newDuckHuntGame = function(width, height, players) {
     },
     tick: function() {
       duck.move();
-      // If duck at edge of screen switch directions
-      if (duck.getX() > width || duck.getX() < 0
-        || duck.getY() > height || duck.getY() < 0) {
-        duck.setDirection((Math.floor(Math.random() * 360)));
-      }
     },
     shoot: function(x, y) {
       // Check if duck has been hit
