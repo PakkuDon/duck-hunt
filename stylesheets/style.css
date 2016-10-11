@@ -55,17 +55,21 @@ main {
   position: absolute;
 }
 
-#player-stats {
+#stats {
   background-color: #000;
+  border-width: 1px;
+  border-style: solid;
+  color: #FFF;
+}
+
+#player-stats {
+  border-top: 1px solid #FFF;
+  color: #888;
 }
 
 #player-stats > div {
   display: inline-block;
-  width: 49%;
-  margin: 0.5%;
-  border-width: 1px;
-  border-style: solid;
-  color: #999;
+  width: 48%;
 }
 
 #player-stats .current {

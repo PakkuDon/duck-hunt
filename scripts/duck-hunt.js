@@ -30,13 +30,19 @@ var newDuckHuntGame = function(width, height, players) {
     getCurrentPlayer: function() {
       return currentPlayerNo;
     },
+    getRoundNumber: function() {
+      return round;
+    },
+    getClockSpeed: function() {
+      return clockSpeed;
+    },
+    getAmmoRemaining: function() {
+      return ammoRemaining;
+    },
     isRunning: function() {
       return players.filter(function(player) {
         return player.isPlaying();
       }).length > 0;
-    },
-    getClockSpeed: function() {
-      return clockSpeed;
     },
     tick: function() {
       duck.move();
