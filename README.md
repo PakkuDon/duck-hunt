@@ -2,7 +2,7 @@
 
 [Live demo](https://pakkudon.github.io/duck-hunt/)
 
-First project at WDI9 Melbourne. [Project brief here.](https://github.com/PakkuDon/duck-hunt/wdi9_project1.md)
+First project at WDI9 Melbourne. [Project brief here.](https://github.com/PakkuDon/duck-hunt/blob/master/wdi9_project1.md)
 
 ## Technologies used
 - HTML
