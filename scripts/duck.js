@@ -1,8 +1,8 @@
-var newDuck = function(width, height) {
+var newDuck = function(bounds) {
   // Calculate initial coordinates and velocity
   // Spawn duck at edge of screen
-  var x = Math.random() > 0.5 ? width : 0;
-  var y = Math.random() > 0.5 ? height : 0;
+  var x = Math.random() > 0.5 ? bounds.offsetWidth : 0;
+  var y = Math.random() > 0.5 ? bounds.offsetHeight * 0.6 : 0;
   var dx = 5;
   var dy = -5;
 
@@ -20,10 +20,10 @@ var newDuck = function(width, height) {
     // Sets duck's next position
     move: function() {
       // Change direction at boundary
-      if (x + dx > width || x + dx < 0) {
+      if (x + dx > bounds.offsetWidth || x + dx < 0) {
         dx = -dx;
       }
-      if (y + dy > height || y + dy < 0) {
+      if (y + dy > bounds.offsetHeight * 0.6 || y + dy < 0) {
         dy = -dy;
       }
 

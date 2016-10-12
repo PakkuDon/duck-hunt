@@ -2,6 +2,7 @@
 var duckElem = document.querySelector('#duck');
 var dogElem = document.querySelector('#dog');
 var gameElem = document.querySelector('#game');
+var screenElem = document.querySelector('#screen');
 var playerElems = document.querySelectorAll('.player');
 var gameStatsElem = document.querySelector('#game-stats');
 var roundNumberElem = document.querySelector('#round-number');
@@ -12,7 +13,7 @@ duckElem.className += ' horizontal';
 
 // Initialise model
 var players = [newPlayer('Bobby'), newPlayer('Tables')];
-var game = newDuckHuntGame(500, 200, players);
+var game = newDuckHuntGame(screenElem, players);
 var intervalID;
 
 var startGameTick = function() {

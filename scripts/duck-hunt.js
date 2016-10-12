@@ -1,4 +1,4 @@
-var newDuckHuntGame = function(width, height, players) {
+var newDuckHuntGame = function(bounds, players) {
   // Constants - Not actually consts but don't edit these
   var MAX_AMMO = 3;
   var HITBOX_RADIUS = 30;
@@ -10,7 +10,7 @@ var newDuckHuntGame = function(width, height, players) {
   // General game properties
   var width = width;
   var height = height;
-  var duck = newDuck(width, height);
+  var duck = newDuck(bounds);
   var players = players;
   var currentPlayerNo = 0;
   var round = 1;
@@ -73,7 +73,7 @@ var newDuckHuntGame = function(width, height, players) {
       if (!this.isRunning()) {
         return;
       }
-      
+
       // Check if duck has been hit
       var duckX = duck.getX();
       var duckY = duck.getY();
