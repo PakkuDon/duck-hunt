@@ -8,6 +8,8 @@ var roundNumberElem = document.querySelector('#round-number');
 var ammoElem = document.querySelector('#ammo-remaining');
 var targetsElem = document.querySelector('#targets');
 
+duckElem.className += ' horizontal';
+
 // Initialise model
 var players = [newPlayer('Bobby'), newPlayer('Tables')];
 var game = newDuckHuntGame(500, 200, players);
