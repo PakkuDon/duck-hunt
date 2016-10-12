@@ -1,12 +1,13 @@
 var newDuckHuntGame = function(width, height, players) {
-  // Commonly used values
-  var maxAmmo = 3;
-  var hitBoxRadius = 30;
-  var targetPoints = 1000;
-  var bonusPoints = 10000;
-  var minTargets = 7;
-  var targetCount = 10;
+  // Constants - Not actually consts but don't edit these
+  var MAX_AMMO = 3;
+  var HITBOX_RADIUS = 30;
+  var TARGET_POINTS = 1000;
+  var BONUS_POINTS = 10000;
+  var INITIAL_REQUIRED_TARGETS = 7;
+  var MAX_TARGETS = 10;
 
+  // General game properties
   var width = width;
   var height = height;
   var duck = newDuck(width, height);
@@ -15,8 +16,8 @@ var newDuckHuntGame = function(width, height, players) {
   var round = 1;
   var targets = [];
   var clockSpeed = 100;
-  var ammoRemaining = maxAmmo;
-  var requiredTargets = minTargets;
+  var ammoRemaining = MAX_AMMO;
+  var requiredTargets = INITIAL_REQUIRED_TARGETS;
 
   return {
     getWidth: function() {
@@ -63,21 +64,25 @@ var newDuckHuntGame = function(width, height, players) {
       }).length > 0;
     },
     reload: function() {
-      ammoRemaining = maxAmmo;
+      ammoRemaining = MAX_AMMO;
     },
     tick: function() {
       duck.move();
     },
     shoot: function(x, y) {
+      if (!this.isRunning()) {
+        return;
+      }
+      
       // Check if duck has been hit
       var duckX = duck.getX();
       var duckY = duck.getY();
-      var isShot = isInRange(x, duckX - hitBoxRadius, duckX + hitBoxRadius)
-        && isInRange(y, duckY - hitBoxRadius, duckY + hitBoxRadius);
+      var isShot = isInRange(x, duckX - HITBOX_RADIUS, duckX + HITBOX_RADIUS)
+        && isInRange(y, duckY - HITBOX_RADIUS, duckY + HITBOX_RADIUS);
 
       // If duck is hit, mark target as hit and update score
       if (isShot) {
-        players[currentPlayerNo].increaseScore(targetPoints);
+        players[currentPlayerNo].increaseScore(TARGET_POINTS);
         targets.push(true);
         this.reload();
       }
@@ -93,7 +98,7 @@ var newDuckHuntGame = function(width, height, players) {
       }
 
       // If all targets exhausted, check if player has passed
-      if (targets.length >= targetCount) {
+      if (targets.length >= MAX_TARGETS) {
         var hitCount = targets.filter(function(target) {
           return target;
         }).length;
@@ -103,8 +108,8 @@ var newDuckHuntGame = function(width, height, players) {
           players[currentPlayerNo].setPlaying(false);
         }
         // Award bonus points if all targets hit
-        else if (hitCount === targetCount) {
-          players[currentPlayerNo].increaseScore(bonusPoints);
+        else if (hitCount === MAX_TARGETS) {
+          players[currentPlayerNo].increaseScore(BONUS_POINTS);
         }
 
         // If remaining players have completed round,

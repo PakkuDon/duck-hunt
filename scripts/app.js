@@ -4,10 +4,28 @@ var dogElem = document.querySelector('#dog');
 var gameElem = document.querySelector('#game');
 var playerElems = document.querySelectorAll('.player');
 var gameStatsElem = document.querySelector('#game-stats');
+var roundNumberElem = document.querySelector('#round-number');
+var ammoElem = document.querySelector('#ammo-remaining');
+var targetsElem = document.querySelector('#targets');
 
 // Initialise model
 var players = [newPlayer('Bobby'), newPlayer('Tables')];
 var game = newDuckHuntGame(500, 200, players);
+var intervalID;
+
+var startGameTick = function() {
+  intervalID = setInterval(function() {
+    game.tick();
+    duckElem.style.left = game.getDuck().getX() - duckElem.clientWidth / 2 + 'px';
+    duckElem.style.top = game.getDuck().getY() - duckElem.clientHeight / 2 + 'px';
+
+    updateUI();
+  }, game.getClockSpeed());
+};
+
+var stopGameTick = function() {
+  clearInterval(intervalID);
+}
 
 var updateUI = function() {
   // Show player details
@@ -16,46 +34,50 @@ var updateUI = function() {
     var player = players[i];
     var playerElem = playerElems[i];
 
-    playerElem.innerHTML = '';
-    playerElem.className = '';
+    playerElem.className = 'player';
 
     if (i < players.length) {
-      playerElem.innerHTML = '<div>Player: ' + player.getName() + '</div>';
-      playerElem.innerHTML += '<div>Score: ' + player.getScore() + '</div>';
+      playerElem.querySelector('.name').innerHTML = player.getName();
+      playerElem.querySelector('.score').innerHTML = player.getScore();
+
       // Highlight defeated or current player
       if (!player.isPlaying()) {
-        playerElem.className = 'lost';
+        playerElem.className += ' lost';
       }
       else if (i === game.getCurrentPlayer()) {
-        playerElem.className = 'current';
+        playerElem.className += ' current';
       }
+    }
+    else {
+      playerElem.querySelector('.name').innerHTML = '';
+      playerElem.querySelector('.score').innerHTML = '';
+      playerElem.className = 'lost';
     }
   }
 
   // Show current round state
-  gameStatsElem.innerHTML = 'Round: ' + game.getRoundNumber()
-    + ' Ammo: ' + game.getAmmoRemaining();
+  roundNumberElem.innerHTML = game.getRoundNumber();
+  ammoElem.innerHTML = game.getAmmoRemaining();
   var targetString = '';
   game.getTargets().forEach(function(target) {
     targetString += target ? 'O ' : 'X ';
   });
-  gameStatsElem.innerHTML += '<div>Targets: ' + targetString + '</div>';
+  targetsElem.innerHTML = targetString;
+
+  // Stop animating on game end
+  if (!game.isRunning()) {
+    stopGameTick();
+  }
 }
 
 // Register event handlers
-var intervalID = setInterval(function() {
-  game.tick();
-  duckElem.style.left = game.getDuck().getX() - duckElem.clientWidth / 2 + 'px';
-  duckElem.style.top = game.getDuck().getY() - duckElem.clientHeight / 2 + 'px';
-
-  updateUI();
-}, game.getClockSpeed());
-
 gameElem.addEventListener('click', function(e) {
   var clickX = e.pageX - gameElem.offsetLeft - duckElem.clientWidth / 2 ;
   var clickY = e.pageY - gameElem.offsetTop - duckElem.clientHeight / 2 ;
 
-  console.log(game.shoot(clickX, clickY));
+  game.shoot(clickX, clickY);
 
   updateUI();
 });
+
+startGameTick();
