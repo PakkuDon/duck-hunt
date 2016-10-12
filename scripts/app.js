@@ -35,6 +35,11 @@ var updateUI = function() {
   // Show current round state
   gameStatsElem.innerHTML = 'Round: ' + game.getRoundNumber()
     + ' Ammo: ' + game.getAmmoRemaining();
+  var targetString = '';
+  game.getTargets().forEach(function(target) {
+    targetString += target ? 'O ' : 'X ';
+  });
+  gameStatsElem.innerHTML += '<div>Targets: ' + targetString + '</div>';
 }
 
 // Register event handlers
