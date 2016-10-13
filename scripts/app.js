@@ -102,5 +102,3 @@ document.querySelector('#one-player-game-btn').addEventListener('click', functio
 document.querySelector('#two-player-game-btn').addEventListener('click', function() {
   startGame(2);
 });
-
-updateUI();

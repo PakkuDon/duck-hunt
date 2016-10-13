@@ -96,6 +96,7 @@ var newDuckHuntGame = function(bounds) {
         players[currentPlayerNo].increaseScore(TARGET_POINTS);
         targets.push(true);
         this.reload();
+        duck.spawn();
       }
       // Deduct ammo on miss
       else {
@@ -105,6 +106,7 @@ var newDuckHuntGame = function(bounds) {
         if (ammoRemaining === 0) {
           targets.push(false);
           this.reload();
+          duck.spawn();
         }
       }
 

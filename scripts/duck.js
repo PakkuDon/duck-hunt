@@ -1,10 +1,8 @@
 var newDuck = function(bounds) {
-  // Calculate initial coordinates and velocity
-  // Spawn duck at edge of screen
   var x;
   var y;
-  var dx = 5;
-  var dy = -5;
+  var dx;
+  var dy;
 
   // Create duck object
   return {
@@ -17,9 +15,12 @@ var newDuck = function(bounds) {
     getDirection: function() {
       return direction;
     },
+    // Calculate initial coordinates and velocity
     spawn: function() {
       x = Math.random() > 0.5 ? bounds.offsetWidth : 0;
-      y = Math.random() > 0.5 ? bounds.offsetHeight * 0.6 : 0;
+      y = (Math.random() * bounds.offsetHeight * 0.6);
+      dx = 5;
+      dy = -5;
     },
     // Sets duck's next position
     move: function() {
