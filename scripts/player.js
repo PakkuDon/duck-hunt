@@ -1,7 +1,7 @@
 var newPlayer = function(name) {
-  var name = name;
+  var name = name || '';
   var score = 0;
-  var isPlaying = true;
+  var isPlaying = false;
 
   return {
     getName: function() {
@@ -12,6 +12,9 @@ var newPlayer = function(name) {
     },
     isPlaying: function() {
       return isPlaying;
+    },
+    setName: function(newName) {
+      name = newName;
     },
     increaseScore: function(value) {
       score += value;

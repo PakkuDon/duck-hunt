@@ -12,8 +12,7 @@ var targetsElem = document.querySelector('#targets');
 duckElem.className += ' horizontal';
 
 // Initialise model
-var players = [newPlayer('Bobby'), newPlayer('Tables')];
-var game = newDuckHuntGame(screenElem, players);
+var game = newDuckHuntGame(screenElem);
 var intervalID;
 
 var startGameTick = function() {
@@ -40,7 +39,6 @@ var updateUI = function() {
     playerElem.className = 'player';
 
     if (i < players.length) {
-      playerElem.querySelector('.name').innerHTML = player.getName();
       playerElem.querySelector('.score').innerHTML = player.getScore();
 
       // Highlight defeated or current player
@@ -52,9 +50,8 @@ var updateUI = function() {
       }
     }
     else {
-      playerElem.querySelector('.name').innerHTML = '';
       playerElem.querySelector('.score').innerHTML = '';
-      playerElem.className = 'lost';
+      playerElem.className += ' lost';
     }
   }
 
@@ -83,4 +80,24 @@ gameElem.addEventListener('click', function(e) {
   updateUI();
 });
 
-startGameTick();
+// Change selected player's name
+playerElems.forEach(function(playerElem, index) {
+  var nameInput = playerElem.querySelector('.name');
+  nameInput.addEventListener('input', function(e) {
+    game.getPlayers()[index].setName(nameInput.value);
+  })
+});
+
+document.querySelector('#one-player-game-btn').addEventListener('click', function() {
+  // Set game players and start game
+  game.start(1);
+  startGameTick();
+});
+
+document.querySelector('#two-player-game-btn').addEventListener('click', function() {
+  // Set game players and start game
+  game.start(2);
+  startGameTick();
+});
+
+updateUI();

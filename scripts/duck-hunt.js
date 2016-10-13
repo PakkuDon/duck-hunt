@@ -1,4 +1,4 @@
-var newDuckHuntGame = function(bounds, players) {
+var newDuckHuntGame = function(bounds) {
   // Constants - Not actually consts but don't edit these
   var MAX_AMMO = 3;
   var HITBOX_RADIUS = 30;
@@ -6,26 +6,21 @@ var newDuckHuntGame = function(bounds, players) {
   var BONUS_POINTS = 10000;
   var INITIAL_REQUIRED_TARGETS = 7;
   var MAX_TARGETS = 10;
+  var INITIAL_ROUND = 1;
+  var INITIAL_CLOCK_SPEED = 100;
 
   // General game properties
-  var width = width;
-  var height = height;
   var duck = newDuck(bounds);
-  var players = players;
+  var players = [newPlayer(), newPlayer()];
+  var noOfPlayers = 0;
   var currentPlayerNo = 0;
   var round = 1;
   var targets = [];
-  var clockSpeed = 100;
+  var clockSpeed = INITIAL_CLOCK_SPEED;
   var ammoRemaining = MAX_AMMO;
   var requiredTargets = INITIAL_REQUIRED_TARGETS;
 
   return {
-    getWidth: function() {
-      return width;
-    },
-    getHeight: function() {
-      return height;
-    },
     getDuck: function() {
       return duck;
     },
@@ -62,6 +57,22 @@ var newDuckHuntGame = function(bounds, players) {
       return players.filter(function(player) {
         return player.isPlaying();
       }).length > 0;
+    },
+    start: function(newNoOfPlayers) {
+      currentPlayerNo = 0;
+      noOfPlayers = newNoOfPlayers;
+      targets = [];
+      ammoRemaining = MAX_AMMO;
+      round = INITIAL_ROUND;
+      clockSpeed = INITIAL_CLOCK_SPEED;
+      requiredTargets = INITIAL_REQUIRED_TARGETS;
+
+      // Set playing state for all players
+      for (var i = 0; i < players.length; i++) {
+        players[i].setPlaying(i < noOfPlayers);
+      }
+
+      duck.spawn();
     },
     reload: function() {
       ammoRemaining = MAX_AMMO;
