@@ -81,12 +81,25 @@ var showPlayerStats = function(players) {
 // Show current game state
 var showGameStats = function(game) {
   roundNumberElem.innerHTML = game.getRoundNumber();
-  ammoElem.innerHTML = game.getAmmoRemaining();
-  var targetString = '';
+  ammoElem.innerHTML = '';
+  targetsElem.innerHTML = '';
+
+  // Show ammo remaining
+  for (var i = 0; i < game.getAmmoRemaining(); i++) {
+    var ammoIcon = document.createElement('span');
+    ammoIcon.className = 'sprite ammo';
+    ammoElem.appendChild(ammoIcon);
+  }
+
+  // Show target hits/misses
   game.getTargets().forEach(function(target) {
-    targetString += target ? 'O ' : 'X ';
+    var targetIcon = document.createElement('span');
+    targetIcon.className = 'sprite target';
+    if (target) {
+      targetIcon.className += ' hit';
+    }
+    targetsElem.appendChild(targetIcon);
   });
-  targetsElem.innerHTML = targetString;
 
   // Stop animating on game end
   if (!game.isRunning()) {

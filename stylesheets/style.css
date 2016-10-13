@@ -27,6 +27,14 @@ main {
   text-align: center;
 }
 
+button {
+  background-color: #000;
+  color: #FFF;
+  border: 1px solid #888;
+  padding: 5px 20px;
+  font-family: 'Pixel Emulator', sans-serif;
+}
+
 #game {
   border-radius: 5px;
   border: 20px solid #000;
@@ -75,6 +83,33 @@ main {
   animation-iteration-count: 1;
 }
 
+.ammo,
+.target {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin: 0px 2px;
+}
+
+.ammo {
+  background-position: 0px -558px;
+}
+
+.target {
+  background-position: -53px -558px;
+}
+
+.target.hit {
+  background-position: -26px -558px;
+}
+
+.target.current {
+  animation-name: blink;
+  animation-duration: 0.5s;
+  animation-timing-function: steps(1, start);
+  animation-iteration-count: infinite;
+}
+
 #dog {
   position: absolute;
 }
@@ -113,14 +148,6 @@ main {
   border-bottom: 1px solid #FFF;
 }
 
-button {
-  background-color: #000;
-  color: #FFF;
-  border: 1px solid #888;
-  padding: 5px 20px;
-  font-family: 'Pixel Emulator', sans-serif;
-}
-
 @media (max-width: 520px) {
   main {
     width: 100%;
@@ -129,29 +156,29 @@ button {
 
 @keyframes duck-horizontal {
   0% {
-    background-position: -5px -230px;
+    background-position: 0px -230px;
   }
 
   33% {
-    background-position: -78px -230px;
+    background-position: -80px -230px;
   }
 
   66% {
-    background-position: -156px -230px;
+    background-position: -162px -230px;
   }
 }
 
 @keyframes duck-vertical {
   0% {
-    background-position: -5px -390px;
+    background-position: 0px -390px;
   }
 
   33% {
-    background-position: -78px -390px;
+    background-position: -80px -390px;
   }
 
   66% {
-    background-position: -156px -390px;
+    background-position: -162px -390px;
   }
 }
 
@@ -162,5 +189,15 @@ button {
 
   5% {
     background-position: -78px -470px;
+  }
+}
+
+@keyframes blink {
+  from {
+    visibility: hidden;
+  }
+
+  100% {
+    visibility: visible;
   }
 }
