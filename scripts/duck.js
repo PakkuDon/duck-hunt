@@ -3,6 +3,7 @@ var newDuck = function(bounds) {
   var y;
   var dx;
   var dy;
+  var HITBOX_RADIUS = 30;
 
   // Create duck object
   return {
@@ -21,6 +22,11 @@ var newDuck = function(bounds) {
       y = (Math.random() * bounds.getHeight() * 0.6);
       dx = 5;
       dy = -5;
+    },
+    // Checks if x, y coordinates are within parrot's hitbox
+    isShot: function(shootX, shootY) {
+      return isInRange(shootX, x - HITBOX_RADIUS, x + HITBOX_RADIUS)
+        && isInRange(shootY, y - HITBOX_RADIUS, y + HITBOX_RADIUS);
     },
     // Sets duck's next position
     move: function() {

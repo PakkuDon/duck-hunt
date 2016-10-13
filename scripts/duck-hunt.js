@@ -1,7 +1,6 @@
 var newDuckHuntGame = function(bounds) {
   // Constants - Not actually consts but don't edit these
   var MAX_AMMO = 3;
-  var HITBOX_RADIUS = 30;
   var TARGET_POINTS = 1000;
   var BONUS_POINTS = 10000;
   var INITIAL_REQUIRED_TARGETS = 7;
@@ -87,10 +86,7 @@ var newDuckHuntGame = function(bounds) {
       }
 
       // Check if duck has been hit
-      var duckX = duck.getX();
-      var duckY = duck.getY();
-      var isShot = isInRange(x, duckX - HITBOX_RADIUS, duckX + HITBOX_RADIUS)
-        && isInRange(y, duckY - HITBOX_RADIUS, duckY + HITBOX_RADIUS);
+      var isShot = duck.isShot(x, y);
 
       // If duck is hit, mark target as hit and update score
       if (isShot) {
@@ -147,7 +143,3 @@ var newDuckHuntGame = function(bounds) {
     }
   };
 };
-
-var isInRange = function(value, min, max) {
-  return value >= min && value < max;
-}

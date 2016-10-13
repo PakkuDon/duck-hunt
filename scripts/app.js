@@ -22,6 +22,12 @@ var game = newDuckHuntGame({
 });
 var intervalID;
 
+// Check if value is between min and max
+var isInRange = function(value, min, max) {
+  return value >= min && value < max;
+}
+
+// Initialise game with given number of players
 var startGame = function(noOfPlayers) {
   game.start(noOfPlayers);
   stopGameTick();
