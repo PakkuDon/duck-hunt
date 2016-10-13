@@ -54,6 +54,22 @@ button {
   background-position: center;
 }
 
+#alert {
+  background-color: #000;
+  color: #FFF;
+  padding: 10px;
+  border: 1px solid #FFF;
+  position: absolute;
+  top: 25%;
+  width: 80%;
+  left: 10%;
+}
+
+#alert:empty {
+  padding: 0px;
+  border: none;
+}
+
 .sprite {
   background-image: url('../images/duck-hunt-sprites.png');
 }

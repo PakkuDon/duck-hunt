@@ -7,6 +7,7 @@ var gameStatsElem = document.querySelector('#game-stats');
 var roundNumberElem = document.querySelector('#round-number');
 var ammoElem = document.querySelector('#ammo-remaining');
 var targetsElem = document.querySelector('#targets');
+var alertElem = document.querySelector('#alert');
 
 duckElem.className += ' horizontal';
 
@@ -117,9 +118,67 @@ var updateUI = function() {
 // Register event handlers
 screenElem.addEventListener('click', function(e) {
   var clickX = e.pageX - screenElem.offsetLeft;
-  var clickY = e.pageY - screenElem.offsetTop ;
+  var clickY = e.pageY - screenElem.offsetTop;
+
+  var previousState = game.getState();
   game.shoot(clickX, clickY);
-  updateUI();
+  var nextState = game.getState();
+
+  // TODO: Dirty checking
+  var messages = [];
+  // If player loses, show game over message
+  if (previousState.isRunning
+    && !previousState.players[previousState.currentPlayerNo].isPlaying()) {
+    messages.push('Game Over');
+  }
+  // Show next round message
+  if (previousState.round !== nextState.round) {
+    messages.push('Round ' + nextState.round);
+  }
+  // Show player change message
+  if (previousState.currentPlayerNo !== nextState.currentPlayerNo
+    && nextState.currentPlayerNo !== -1) {
+    messages.push('Player ' + (nextState.currentPlayerNo + 1));
+  }
+  // If game has ended, display game result
+  if (previousState.isRunning && !nextState.isRunning) {
+    var maxScore = -1;
+    nextState.players.forEach(function(player) {
+      if (player.getScore() > maxScore) {
+        maxScore = player.getScore();
+      }
+    });
+    var leadPlayers = nextState.players.filter(function(player) {
+      return player.getScore() === maxScore;
+    });
+
+    if (leadPlayers.length > 1) {
+      messages.push('Draw');
+    }
+    else {
+      var winner = leadPlayers[0];
+      var playerNo = nextState.players.indexOf(winner);
+      messages.push('Player ' + (playerNo + 1) + ' ' + winner.getName() + ' wins');
+    }
+  }
+
+  // Display alerts
+  stopGameTick();
+  for (var i = 0; i < messages.length; i++) {
+    (function(i) {
+      setTimeout(function() {
+        alertElem.innerHTML = messages[i];
+      }, i * 2000);
+    })(i);
+  }
+
+  setTimeout(function() {
+    alertElem.innerHTML = '';
+    if (game.isRunning()) {
+      startGameTick();
+    }
+    updateUI();
+  }, i * 2000)
 });
 
 // Change selected player's name

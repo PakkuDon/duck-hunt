@@ -52,6 +52,16 @@ var newDuckHuntGame = function(bounds) {
     getAmmoRemaining: function() {
       return ammoRemaining;
     },
+    getState: function() {
+      return {
+        players: players,
+        currentPlayerNo: currentPlayerNo,
+        round: round,
+        ammoRemaining: ammoRemaining,
+        targets: targets,
+        isRunning: this.isRunning()
+      };
+    },
     isRunning: function() {
       return players.filter(function(player) {
         return player.isPlaying();
