@@ -25,11 +25,18 @@ var newDuck = function(bounds) {
     // Sets duck's next position
     move: function() {
       // Change direction at boundary
-      if (x + dx > bounds.offsetWidth || x + dx < 0) {
-        dx = -dx;
+      if (x + dx > bounds.offsetWidth) {
+        dx = -Math.abs(dx);
       }
-      if (y + dy > bounds.offsetHeight * 0.6 || y + dy < 0) {
-        dy = -dy;
+      else if (x + dx < 0) {
+        dx = Math.abs(dx);
+      }
+
+      if (y + dy > bounds.offsetHeight * 0.6) {
+        dy = -Math.abs(dy);
+      }
+      else if (y + dy < 0) {
+        dy = Math.abs(dy);
       }
 
       // Calculate next x,y coordinates

@@ -67,9 +67,10 @@ var newDuckHuntGame = function(bounds) {
       clockSpeed = INITIAL_CLOCK_SPEED;
       requiredTargets = INITIAL_REQUIRED_TARGETS;
 
-      // Set playing state for all players
+      // Set initial state for all players
       for (var i = 0; i < players.length; i++) {
         players[i].setPlaying(i < noOfPlayers);
+        players[i].resetScore();
       }
 
       duck.spawn();
@@ -95,8 +96,6 @@ var newDuckHuntGame = function(bounds) {
       if (isShot) {
         players[currentPlayerNo].increaseScore(TARGET_POINTS);
         targets.push(true);
-        this.reload();
-        duck.spawn();
       }
       // Deduct ammo on miss
       else {
@@ -105,8 +104,6 @@ var newDuckHuntGame = function(bounds) {
         // If out of ammo, mark target as miss
         if (ammoRemaining === 0) {
           targets.push(false);
-          this.reload();
-          duck.spawn();
         }
       }
 
@@ -127,7 +124,8 @@ var newDuckHuntGame = function(bounds) {
 
         // If remaining players have completed round,
         // move to next round
-        if (currentPlayerNo === players.length -1) {
+        if (this.getNextPlayer() !== -1
+          && currentPlayerNo >= this.getNextPlayer()) {
           round++;
           clockSpeed -= 10;
         }
@@ -136,6 +134,13 @@ var newDuckHuntGame = function(bounds) {
 
         // Reset target results
         targets = [];
+      }
+
+      // Respawn duck and reload on end of target attempt
+      if ((isShot || ammoRemaining === 0)
+        && this.getNextPlayer() !== -1) {
+        this.reload();
+        duck.spawn();
       }
 
       return isShot;

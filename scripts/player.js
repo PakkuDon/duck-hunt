@@ -16,6 +16,9 @@ var newPlayer = function(name) {
     setName: function(newName) {
       name = newName;
     },
+    resetScore: function() {
+      score = 0;
+    },
     increaseScore: function(value) {
       score += value;
     },
