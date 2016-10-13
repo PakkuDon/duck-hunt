@@ -133,7 +133,9 @@ var newDuckHuntGame = function(bounds) {
         if (this.getNextPlayer() !== -1
           && currentPlayerNo >= this.getNextPlayer()) {
           round++;
-          clockSpeed -= 10;
+          if (clockSpeed >= 10) {
+            clockSpeed -= 10;
+          }
         }
         // Switch to next player
         currentPlayerNo = this.getNextPlayer();
