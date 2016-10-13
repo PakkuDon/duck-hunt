@@ -52,6 +52,7 @@ button {
   background-image: url('../images/background.png');
   background-size: cover;
   background-position: center;
+  cursor: url('../images/cursor.png') 25 25, auto;
 }
 
 #alert {
