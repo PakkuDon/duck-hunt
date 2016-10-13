@@ -1,7 +1,6 @@
 // Grab DOM elements
 var duckElem = document.querySelector('#duck');
 var dogElem = document.querySelector('#dog');
-var gameElem = document.querySelector('#game');
 var screenElem = document.querySelector('#screen');
 var playerElems = document.querySelectorAll('.player');
 var gameStatsElem = document.querySelector('#game-stats');
@@ -103,12 +102,10 @@ var updateUI = function() {
 }
 
 // Register event handlers
-gameElem.addEventListener('click', function(e) {
-  var clickX = e.pageX - gameElem.offsetLeft - duckElem.clientWidth / 2 ;
-  var clickY = e.pageY - gameElem.offsetTop - duckElem.clientHeight / 2 ;
-
+screenElem.addEventListener('click', function(e) {
+  var clickX = e.pageX - screenElem.offsetLeft;
+  var clickY = e.pageY - screenElem.offsetTop ;
   game.shoot(clickX, clickY);
-
   updateUI();
 });
 
