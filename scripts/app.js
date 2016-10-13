@@ -12,7 +12,14 @@ var targetsElem = document.querySelector('#targets');
 duckElem.className += ' horizontal';
 
 // Initialise model
-var game = newDuckHuntGame(screenElem);
+var game = newDuckHuntGame({
+  getWidth: function() {
+    return screenElem.offsetWidth;
+  },
+  getHeight: function() {
+    return screenElem.offsetHeight;
+  }
+});
 var intervalID;
 
 var startGame = function(noOfPlayers) {
@@ -21,23 +28,27 @@ var startGame = function(noOfPlayers) {
   startGameTick();
 }
 
+// Start game animation
 var startGameTick = function() {
   intervalID = setInterval(function() {
     game.tick();
-    duckElem.style.left = game.getDuck().getX() - duckElem.clientWidth / 2 + 'px';
-    duckElem.style.top = game.getDuck().getY() - duckElem.clientHeight / 2 + 'px';
-
     updateUI();
   }, game.getClockSpeed());
 };
 
+// Stop game animation
 var stopGameTick = function() {
   clearInterval(intervalID);
 }
 
-var updateUI = function() {
-  // Show player details
-  var players = game.getPlayers();
+// Show duck's current position
+var showDuck = function(duck) {
+  duckElem.style.left = duck.getX() - duckElem.clientWidth / 2 + 'px';
+  duckElem.style.top = duck.getY() - duckElem.clientHeight / 2 + 'px';
+}
+
+// Show current player stats
+var showPlayerStats = function(players) {
   for (var i = 0; i < playerElems.length; i++) {
     var player = players[i];
     var playerElem = playerElems[i];
@@ -60,8 +71,10 @@ var updateUI = function() {
       playerElem.className += ' lost';
     }
   }
+}
 
-  // Show current round state
+// Show current game state
+var showGameStats = function(game) {
   roundNumberElem.innerHTML = game.getRoundNumber();
   ammoElem.innerHTML = game.getAmmoRemaining();
   var targetString = '';
@@ -74,6 +87,13 @@ var updateUI = function() {
   if (!game.isRunning()) {
     stopGameTick();
   }
+}
+
+// Update UI to match game state
+var updateUI = function() {
+  showDuck(game.getDuck());
+  showPlayerStats(game.getPlayers());
+  showGameStats(game);
 }
 
 // Register event handlers

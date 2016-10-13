@@ -17,22 +17,22 @@ var newDuck = function(bounds) {
     },
     // Calculate initial coordinates and velocity
     spawn: function() {
-      x = Math.random() > 0.5 ? bounds.offsetWidth : 0;
-      y = (Math.random() * bounds.offsetHeight * 0.6);
+      x = Math.random() > 0.5 ? bounds.getWidth() : 0;
+      y = (Math.random() * bounds.getHeight() * 0.6);
       dx = 5;
       dy = -5;
     },
     // Sets duck's next position
     move: function() {
       // Change direction at boundary
-      if (x + dx > bounds.offsetWidth) {
+      if (x + dx > bounds.getWidth()) {
         dx = -Math.abs(dx);
       }
       else if (x + dx < 0) {
         dx = Math.abs(dx);
       }
 
-      if (y + dy > bounds.offsetHeight * 0.6) {
+      if (y + dy > bounds.getHeight() * 0.6) {
         dy = -Math.abs(dy);
       }
       else if (y + dy < 0) {
