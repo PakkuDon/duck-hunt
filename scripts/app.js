@@ -15,6 +15,12 @@ duckElem.className += ' horizontal';
 var game = newDuckHuntGame(screenElem);
 var intervalID;
 
+var startGame = function(noOfPlayers) {
+  game.start(noOfPlayers);
+  stopGameTick();
+  startGameTick();
+}
+
 var startGameTick = function() {
   intervalID = setInterval(function() {
     game.tick();
@@ -88,16 +94,13 @@ playerElems.forEach(function(playerElem, index) {
   })
 });
 
+// Start game with set number of players
 document.querySelector('#one-player-game-btn').addEventListener('click', function() {
-  // Set game players and start game
-  game.start(1);
-  startGameTick();
+  startGame(1);
 });
 
 document.querySelector('#two-player-game-btn').addEventListener('click', function() {
-  // Set game players and start game
-  game.start(2);
-  startGameTick();
+  startGame(2);
 });
 
 updateUI();
