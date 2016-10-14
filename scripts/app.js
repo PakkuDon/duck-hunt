@@ -12,7 +12,6 @@ var roundNumberElem = document.querySelector('#round-number');
 var ammoElem = document.querySelector('#ammo-remaining');
 var targetElems = document.querySelectorAll('.target');
 var alertElem = document.querySelector('#alert');
-var messages = [];
 
 duckElem.className += ' horizontal'
 
@@ -25,7 +24,9 @@ var game = newDuckHuntGame({
     return screenElem.offsetHeight;
   }
 });
+var messages = [];
 var intervalID;
+var alertVisible = false;
 
 // Check if value is between min and max
 var isInRange = function(value, min, max) {
@@ -42,27 +43,21 @@ var startGame = function(noOfPlayers) {
 // If alerts recorded, pause game and display messages
 // before resuming
 var processMessageQueue = function() {
-  var messageIntervalID = setInterval(function() {
-    if (messages.length > 0) {
-      clearInterval(messageIntervalID);
+  setInterval(function() {
+    if (messages.length > 0 && !alertVisible) {
       stopGameTick();
-      for (var i = 0; i < messages.length; i++) {
-        (function(i) {
-          setTimeout(function() {
-            alertElem.innerHTML = messages[i];
-          }, i * ALERT_TIME);
-        })(i);
-      }
+      var message = messages.shift();
+      alertVisible = true;
+      alertElem.innerHTML = message;
 
       // Clear alert and resume game after all alerts processed
       setTimeout(function() {
+        alertVisible = false;
         alertElem.innerHTML = '';
-        messages = [];
-        processMessageQueue();
         if (game.isRunning()) {
           startGameTick();
         }
-      }, i * ALERT_TIME);
+      }, ALERT_TIME);
     }
   }, PROCESS_INTERVAL);
 }
@@ -155,7 +150,7 @@ var updateUI = function() {
 // update game state
 screenElem.addEventListener('click', function(e) {
   // Prevent shoot from firing if message queue has messages
-  if (messages.length > 0) {
+  if (messages.length > 0 || alertVisible) {
     return;
   }
 
