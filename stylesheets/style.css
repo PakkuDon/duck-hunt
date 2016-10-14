@@ -182,7 +182,7 @@ button {
   }
 
   #game {
-    border: 5px solid #000; 
+    border: 5px solid #000;
   }
 
   #player-stats input {
@@ -230,10 +230,10 @@ button {
 
 @keyframes blink {
   from {
-    visibility: hidden;
+    background-size: 0, 0;
   }
 
-  100% {
-    visibility: visible;
+  to {
+    background-size: auto;
   }
 }

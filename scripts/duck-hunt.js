@@ -83,6 +83,9 @@ var newDuckHuntGame = function(bounds) {
         return 'Player ' + (playerNo + 1) + ' ' + winner.getName() + ' wins';
       }
     },
+    getTargetsPerRound: function() {
+      return MAX_TARGETS;
+    },
     isRunning: function() {
       return players.filter(function(player) {
         return player.isPlaying();

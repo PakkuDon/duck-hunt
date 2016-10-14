@@ -10,7 +10,7 @@ var playerElems = document.querySelectorAll('.player');
 var gameStatsElem = document.querySelector('#game-stats');
 var roundNumberElem = document.querySelector('#round-number');
 var ammoElem = document.querySelector('#ammo-remaining');
-var targetsElem = document.querySelector('#targets');
+var targetElems = document.querySelectorAll('.target');
 var alertElem = document.querySelector('#alert');
 var messages = [];
 
@@ -118,7 +118,6 @@ var showPlayerStats = function(players) {
 var showGameStats = function(game) {
   roundNumberElem.innerHTML = game.getRoundNumber();
   ammoElem.innerHTML = '';
-  targetsElem.innerHTML = '';
 
   // Show ammo remaining
   for (var i = 0; i < game.getAmmoRemaining(); i++) {
@@ -128,14 +127,15 @@ var showGameStats = function(game) {
   }
 
   // Show target hits/misses
-  game.getTargets().forEach(function(target) {
-    var targetIcon = document.createElement('span');
+  var targets = game.getTargets();
+  for (var i = 0; i < game.getTargetsPerRound(); i++) {
+    var target = targets[i];
+    var targetIcon = targetElems[i];
     targetIcon.className = 'sprite target';
     if (target) {
       targetIcon.className += ' hit';
     }
-    targetsElem.appendChild(targetIcon);
-  });
+  };
 
   // Stop animating on game end
   if (!game.isRunning()) {
