@@ -105,13 +105,14 @@ var newDuckHuntGame = function(bounds) {
       }
       // Deduct ammo on miss
       else {
-        // Update ammo remaining
-        ammoRemaining--;
         // If out of ammo, mark target as miss
         if (ammoRemaining === 0) {
           targets.push(false);
         }
       }
+
+      // Update ammo remaining
+      ammoRemaining--;
 
       // If all targets exhausted, check if player has passed
       if (targets.length >= MAX_TARGETS) {
