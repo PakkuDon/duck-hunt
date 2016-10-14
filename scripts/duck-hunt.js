@@ -62,6 +62,27 @@ var newDuckHuntGame = function(bounds) {
         isRunning: this.isRunning()
       };
     },
+    getResult: function() {
+      var maxScore = -1;
+      players.forEach(function(player) {
+        if (player.getScore() > maxScore) {
+          maxScore = player.getScore();
+        }
+      });
+
+      var leadPlayers = players.filter(function(player) {
+        return player.getScore() === maxScore;
+      });
+
+      if (leadPlayers.length > 1) {
+        return 'Draw';
+      }
+      else {
+        var winner = leadPlayers[0];
+        var playerNo = players.indexOf(winner);
+        return 'Player ' + (playerNo + 1) + ' ' + winner.getName() + ' wins';
+      }
+    },
     isRunning: function() {
       return players.filter(function(player) {
         return player.isPlaying();

@@ -184,24 +184,7 @@ screenElem.addEventListener('click', function(e) {
   }
   // If game has ended, display game result
   if (previousState.isRunning && !nextState.isRunning) {
-    var maxScore = -1;
-    nextState.players.forEach(function(player) {
-      if (player.getScore() > maxScore) {
-        maxScore = player.getScore();
-      }
-    });
-    var leadPlayers = nextState.players.filter(function(player) {
-      return player.getScore() === maxScore;
-    });
-
-    if (leadPlayers.length > 1) {
-      messages.push('Draw');
-    }
-    else {
-      var winner = leadPlayers[0];
-      var playerNo = nextState.players.indexOf(winner);
-      messages.push('Player ' + (playerNo + 1) + ' ' + winner.getName() + ' wins');
-    }
+    messages.push(game.getResult());
   }
 });
 
