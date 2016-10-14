@@ -13,7 +13,7 @@ var ammoElem = document.querySelector('#ammo-remaining');
 var targetElems = document.querySelectorAll('.target');
 var alertElem = document.querySelector('#alert');
 
-duckElem.className += ' horizontal'
+duckElem.classList.add('horizontal');
 
 // Initialise model
 var game = newDuckHuntGame({
@@ -96,15 +96,22 @@ var showPlayerStats = function(players) {
     var playerElem = playerElems[i];
 
     // Reset CSS class and score to current values
-    playerElem.className = 'player';
+    playerElem.classList.add('player');
     playerElem.querySelector('.score').innerHTML = player.getScore();
 
     // Highlight disqualified or current player
     if (!player.isPlaying()) {
-      playerElem.className += ' lost';
+      playerElem.classList.add('lost');
     }
-    else if (i === game.getCurrentPlayer()) {
-      playerElem.className += ' current';
+    else {
+      playerElem.classList.remove('lost');
+    }
+
+    if (i === game.getCurrentPlayer()) {
+      playerElem.classList.add('current');
+    }
+    else {
+      playerElem.classList.remove('current');
     }
   }
 }
@@ -117,7 +124,7 @@ var showGameStats = function(game) {
   // Show ammo remaining
   for (var i = 0; i < game.getAmmoRemaining(); i++) {
     var ammoIcon = document.createElement('span');
-    ammoIcon.className = 'sprite ammo';
+    ammoIcon.classList.add('sprite', 'ammo');
     ammoElem.appendChild(ammoIcon);
   }
 
@@ -126,9 +133,19 @@ var showGameStats = function(game) {
   for (var i = 0; i < game.getTargetsPerRound(); i++) {
     var target = targets[i];
     var targetIcon = targetElems[i];
-    targetIcon.className = 'sprite target';
+    targetIcon.classList.add('sprite', 'target');
     if (target) {
-      targetIcon.className += ' hit';
+      targetIcon.classList.add('hit');
+    }
+    else {
+      targetIcon.classList.remove('hit');
+    }
+
+    if (i === targets.length) {
+      targetIcon.classList.add('current');
+    }
+    else {
+      targetIcon.classList.remove('current');
     }
   };
 
