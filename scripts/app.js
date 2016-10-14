@@ -1,3 +1,7 @@
+// Constants
+var ALERT_TIME = 2000;
+var PROCESS_INTERVAL = 10;
+
 // Grab DOM elements
 var duckElem = document.querySelector('#duck');
 var dogElem = document.querySelector('#dog');
@@ -8,6 +12,7 @@ var roundNumberElem = document.querySelector('#round-number');
 var ammoElem = document.querySelector('#ammo-remaining');
 var targetsElem = document.querySelector('#targets');
 var alertElem = document.querySelector('#alert');
+var messages = [];
 
 duckElem.className += ' horizontal'
 
@@ -32,6 +37,34 @@ var startGame = function(noOfPlayers) {
   game.start(noOfPlayers);
   stopGameTick();
   startGameTick();
+}
+
+// If alerts recorded, pause game and display messages
+// before resuming
+var processMessageQueue = function() {
+  var messageIntervalID = setInterval(function() {
+    if (messages.length > 0) {
+      clearInterval(messageIntervalID);
+      stopGameTick();
+      for (var i = 0; i < messages.length; i++) {
+        (function(i) {
+          setTimeout(function() {
+            alertElem.innerHTML = messages[i];
+          }, i * ALERT_TIME);
+        })(i);
+      }
+
+      // Clear alert and resume game after all alerts processed
+      setTimeout(function() {
+        alertElem.innerHTML = '';
+        messages = [];
+        processMessageQueue();
+        if (game.isRunning()) {
+          startGameTick();
+        }
+      }, i * ALERT_TIME);
+    }
+  }, PROCESS_INTERVAL);
 }
 
 // Start game animation
@@ -118,16 +151,23 @@ var updateUI = function() {
 }
 
 // Register event handlers
+// Record player shot at click coordinates and
+// update game state
 screenElem.addEventListener('click', function(e) {
+  // Prevent shoot from firing if message queue has messages
+  if (messages.length > 0) {
+    return;
+  }
+
   var clickX = e.pageX - screenElem.offsetLeft;
   var clickY = e.pageY - screenElem.offsetTop;
 
+  // Dirty checking
+  // Report alert if changes detected between shots
   var previousState = game.getState();
   game.shoot(clickX, clickY);
   var nextState = game.getState();
 
-  // TODO: Dirty checking
-  var messages = [];
   // If player loses, show game over message
   if (previousState.isRunning
     && !previousState.players[previousState.currentPlayerNo].isPlaying()) {
@@ -163,24 +203,6 @@ screenElem.addEventListener('click', function(e) {
       messages.push('Player ' + (playerNo + 1) + ' ' + winner.getName() + ' wins');
     }
   }
-
-  // Display alerts
-  stopGameTick();
-  for (var i = 0; i < messages.length; i++) {
-    (function(i) {
-      setTimeout(function() {
-        alertElem.innerHTML = messages[i];
-      }, i * 2000);
-    })(i);
-  }
-
-  setTimeout(function() {
-    alertElem.innerHTML = '';
-    if (game.isRunning()) {
-      startGameTick();
-    }
-    updateUI();
-  }, i * 2000)
 });
 
 // Change selected player's name
@@ -200,4 +222,5 @@ document.querySelector('#two-player-game-btn').addEventListener('click', functio
   startGame(2);
 });
 
+processMessageQueue();
 updateUI();
