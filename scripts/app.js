@@ -9,7 +9,7 @@ var ammoElem = document.querySelector('#ammo-remaining');
 var targetsElem = document.querySelector('#targets');
 var alertElem = document.querySelector('#alert');
 
-duckElem.className += ' horizontal';
+duckElem.className += ' horizontal'
 
 // Initialise model
 var game = newDuckHuntGame({
@@ -51,6 +51,14 @@ var stopGameTick = function() {
 var showDuck = function(duck) {
   duckElem.style.left = duck.getX() - duckElem.clientWidth / 2 + 'px';
   duckElem.style.top = duck.getY() - duckElem.clientHeight / 2 + 'px';
+
+  // Change duck sprite based on direction
+  if (duck.getHorizontalSpeed() > 0) {
+    duckElem.style.transform = '';
+  }
+  else {
+    duckElem.style.transform = 'scaleX(-1)';
+  }
 }
 
 // Show current player stats
@@ -59,22 +67,16 @@ var showPlayerStats = function(players) {
     var player = players[i];
     var playerElem = playerElems[i];
 
+    // Reset CSS class and score to current values
     playerElem.className = 'player';
+    playerElem.querySelector('.score').innerHTML = player.getScore();
 
-    if (i < players.length) {
-      playerElem.querySelector('.score').innerHTML = player.getScore();
-
-      // Highlight defeated or current player
-      if (!player.isPlaying()) {
-        playerElem.className += ' lost';
-      }
-      else if (i === game.getCurrentPlayer()) {
-        playerElem.className += ' current';
-      }
-    }
-    else {
-      playerElem.querySelector('.score').innerHTML = '';
+    // Highlight disqualified or current player
+    if (!player.isPlaying()) {
       playerElem.className += ' lost';
+    }
+    else if (i === game.getCurrentPlayer()) {
+      playerElem.className += ' current';
     }
   }
 }

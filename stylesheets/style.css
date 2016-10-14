@@ -62,8 +62,8 @@ button {
   border: 1px solid #FFF;
   position: absolute;
   top: 25%;
-  width: 80%;
-  left: 10%;
+  width: 70%;
+  left: 15%;
 }
 
 #alert:empty {
@@ -82,6 +82,7 @@ button {
   animation-timing-function: steps(1);
   animation-duration: 1s;
   animation-iteration-count: infinite;
+  background-position: -5px -230px;
 }
 
 #duck.horizontal {
@@ -98,6 +99,16 @@ button {
   animation-name: duck-shot;
   background-position: -78px -470px;
   animation-iteration-count: 1;
+}
+
+#game-stats {
+  text-align: left;
+  padding: 10px 20px;
+}
+
+#round-details > div {
+  display: inline-block;
+  width: 49%;
 }
 
 .ammo,
@@ -167,6 +178,14 @@ button {
 
 @media (max-width: 520px) {
   main {
+    width: 100%;
+  }
+
+  #game {
+    border: 5px solid #000; 
+  }
+
+  #player-stats input {
     width: 100%;
   }
 }

@@ -13,8 +13,11 @@ var newDuck = function(bounds) {
     getY: function() {
       return y;
     },
-    getDirection: function() {
-      return direction;
+    getHorizontalSpeed: function() {
+      return dx;
+    },
+    getVerticalSpeed: function() {
+      return dy;
     },
     // Calculate initial coordinates and velocity
     spawn: function() {

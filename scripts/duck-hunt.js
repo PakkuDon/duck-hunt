@@ -97,6 +97,8 @@ var newDuckHuntGame = function(bounds) {
 
       // Check if duck has been hit
       var isShot = duck.isShot(x, y);
+      // Update ammo remaining
+      ammoRemaining--;
 
       // If duck is hit, mark target as hit and update score
       if (isShot) {
@@ -110,9 +112,6 @@ var newDuckHuntGame = function(bounds) {
           targets.push(false);
         }
       }
-
-      // Update ammo remaining
-      ammoRemaining--;
 
       // If all targets exhausted, check if player has passed
       if (targets.length >= MAX_TARGETS) {
