@@ -13,6 +13,7 @@ var ammoElem = document.querySelector('#ammo-remaining');
 var targetElems = document.querySelectorAll('.target');
 var alertElem = document.querySelector('#alert');
 
+// Set initial duck animation
 duckElem.classList.add('horizontal');
 
 // Initialise model

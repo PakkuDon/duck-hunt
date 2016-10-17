@@ -7,6 +7,7 @@
   src: url("../fonts/Pixel Emulator.otf") format("opentype");
 }
 
+/* Base styling */
 body {
   font-family: 'Pixel Emulator', sans-serif;
   background-color: #022;
@@ -35,6 +36,7 @@ button {
   font-family: 'Pixel Emulator', sans-serif;
 }
 
+/* Game container and screen */
 #game {
   border-radius: 5px;
   border: 20px solid #000;
@@ -55,6 +57,7 @@ button {
   cursor: url('../images/cursor.png') 25 25, auto;
 }
 
+/* Alert modal */
 #alert {
   background-color: #000;
   color: #FFF;
@@ -66,15 +69,18 @@ button {
   left: 15%;
 }
 
+/* Remove modal when empty */
 #alert:empty {
   padding: 0px;
   border: none;
 }
 
+/* Spritesheet */
 .sprite {
   background-image: url('../images/duck-hunt-sprites.png');
 }
 
+/* Duck */
 #duck {
   position: absolute;
   width: 72px;
@@ -101,11 +107,20 @@ button {
   animation-iteration-count: 1;
 }
 
+/* Game details */
+#stats {
+  background-color: #000;
+  border-width: 1px;
+  border-style: solid;
+  color: #FFF;
+}
+
 #game-stats {
   text-align: left;
   padding: 10px 20px;
 }
 
+/* Round details */
 #round-details > div {
   display: inline-block;
   width: 49%;
@@ -138,17 +153,7 @@ button {
   animation-iteration-count: infinite;
 }
 
-#dog {
-  position: absolute;
-}
-
-#stats {
-  background-color: #000;
-  border-width: 1px;
-  border-style: solid;
-  color: #FFF;
-}
-
+/* Player information */
 #player-stats {
   border-top: 1px solid #FFF;
   color: #888;
@@ -176,6 +181,12 @@ button {
   border-bottom: 1px solid #FFF;
 }
 
+/* Dog */
+#dog {
+  position: absolute;
+}
+
+/* Styling for smaller screens */
 @media (max-width: 520px) {
   main {
     width: 100%;
@@ -190,6 +201,8 @@ button {
   }
 }
 
+/* Animations */
+/* Play horizontal flying animation */
 @keyframes duck-horizontal {
   0% {
     background-position: 0px -230px;
@@ -204,6 +217,7 @@ button {
   }
 }
 
+/* Play vertical flying animation */
 @keyframes duck-vertical {
   0% {
     background-position: 0px -390px;
@@ -218,6 +232,7 @@ button {
   }
 }
 
+/* Play duck hit animation */
 @keyframes duck-shot {
   0% {
     background-position: -5px -470px;
@@ -228,6 +243,7 @@ button {
   }
 }
 
+/* Blink animation */
 @keyframes blink {
   from {
     background-size: 0, 0;

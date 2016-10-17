@@ -29,6 +29,8 @@ var newDuckHuntGame = function(bounds) {
     getCurrentPlayer: function() {
       return currentPlayerNo;
     },
+    // Get index of next active player
+    // Return -1 if no players left
     getNextPlayer: function() {
       var nextPlayerNo = -1;
       for (var i = 1; i <= players.length; i++) {
@@ -52,6 +54,7 @@ var newDuckHuntGame = function(bounds) {
     getAmmoRemaining: function() {
       return ammoRemaining;
     },
+    // Returns object containing current game state
     getState: function() {
       return {
         players: players,
@@ -62,6 +65,8 @@ var newDuckHuntGame = function(bounds) {
         isRunning: this.isRunning()
       };
     },
+    // Returns string containing game result
+    // Could either be result or string containing winner
     getResult: function() {
       var maxScore = -1;
       players.forEach(function(player) {
@@ -74,6 +79,7 @@ var newDuckHuntGame = function(bounds) {
         return player.getScore() === maxScore;
       });
 
+      // If more than one player with high score, return draw
       if (leadPlayers.length > 1) {
         return 'Draw';
       }
@@ -86,11 +92,13 @@ var newDuckHuntGame = function(bounds) {
     getTargetsPerRound: function() {
       return MAX_TARGETS;
     },
+    // Check if game has any active players in it
     isRunning: function() {
       return players.filter(function(player) {
         return player.isPlaying();
       }).length > 0;
     },
+    // Initialise game state to default values
     start: function(newNoOfPlayers) {
       currentPlayerNo = 0;
       noOfPlayers = newNoOfPlayers;
@@ -108,12 +116,17 @@ var newDuckHuntGame = function(bounds) {
 
       duck.spawn();
     },
+    // Refill ammo
     reload: function() {
       ammoRemaining = MAX_AMMO;
     },
+    // Perform in-game tick
     tick: function() {
       duck.move();
     },
+    // Shoot at given x,y fields and check duck for collision
+    // Updates ammo. Could cause target number, player number
+    // or round number change
     shoot: function(x, y) {
       if (!this.isRunning()) {
         return;
