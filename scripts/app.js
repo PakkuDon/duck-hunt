@@ -3,31 +3,14 @@ var ALERT_TIME = 2000;
 var PROCESS_INTERVAL = 10;
 
 // Grab DOM elements
-var duckElem = document.querySelector('#duck');
-var dogElem = document.querySelector('#dog');
 var screenElem = document.querySelector('#screen');
 var playerElems = document.querySelectorAll('.player');
-var gameStatsElem = document.querySelector('#game-stats');
-var roundNumberElem = document.querySelector('#round-number');
-var ammoElem = document.querySelector('#ammo-remaining');
-var targetElems = document.querySelectorAll('.target');
-var alertElem = document.querySelector('#alert');
-
-// Set initial duck animation
-duckElem.classList.add('horizontal');
 
 // Initialise model
-var game = newDuckHuntGame({
-  getWidth: function() {
-    return screenElem.offsetWidth;
-  },
-  getHeight: function() {
-    return screenElem.offsetHeight;
-  }
-});
+var view = getView();
+var game = newDuckHuntGame(view.getBounds());
 var messages = [];
 var intervalID;
-var alertVisible = false;
 
 // Check if value is between min and max
 var isInRange = function(value, min, max) {
@@ -45,16 +28,14 @@ var startGame = function(noOfPlayers) {
 // before resuming
 var processMessageQueue = function() {
   setInterval(function() {
-    if (messages.length > 0 && !alertVisible) {
+    if (messages.length > 0 && !view.isAlertVisible()) {
       stopGameTick();
       var message = messages.shift();
-      alertVisible = true;
-      alertElem.innerHTML = message;
+      view.showAlert(message);
 
       // Clear alert and resume game after all alerts processed
       setTimeout(function() {
-        alertVisible = false;
-        alertElem.innerHTML = '';
+        view.clearAlert();
         if (game.isRunning()) {
           startGameTick();
         }
@@ -67,7 +48,7 @@ var processMessageQueue = function() {
 var startGameTick = function() {
   intervalID = setInterval(function() {
     game.tick();
-    updateUI();
+    view.updateUI(game);
   }, game.getClockSpeed());
 };
 
@@ -76,99 +57,12 @@ var stopGameTick = function() {
   clearInterval(intervalID);
 }
 
-// Show duck's current position
-var showDuck = function(duck) {
-  duckElem.style.left = duck.getX() - duckElem.clientWidth / 2 + 'px';
-  duckElem.style.top = duck.getY() - duckElem.clientHeight / 2 + 'px';
-
-  // Change duck sprite based on direction
-  if (duck.getHorizontalSpeed() > 0) {
-    duckElem.style.transform = '';
-  }
-  else {
-    duckElem.style.transform = 'scaleX(-1)';
-  }
-}
-
-// Show current player stats
-var showPlayerStats = function(players) {
-  for (var i = 0; i < playerElems.length; i++) {
-    var player = players[i];
-    var playerElem = playerElems[i];
-
-    // Reset CSS class and score to current values
-    playerElem.classList.add('player');
-    playerElem.querySelector('.score').innerHTML = player.getScore();
-
-    // Highlight disqualified or current player
-    if (!player.isPlaying()) {
-      playerElem.classList.add('lost');
-    }
-    else {
-      playerElem.classList.remove('lost');
-    }
-
-    if (i === game.getCurrentPlayer()) {
-      playerElem.classList.add('current');
-    }
-    else {
-      playerElem.classList.remove('current');
-    }
-  }
-}
-
-// Show current game state
-var showGameStats = function(game) {
-  roundNumberElem.innerHTML = game.getRoundNumber();
-  ammoElem.innerHTML = '';
-
-  // Show ammo remaining
-  for (var i = 0; i < game.getAmmoRemaining(); i++) {
-    var ammoIcon = document.createElement('span');
-    ammoIcon.classList.add('sprite', 'ammo');
-    ammoElem.appendChild(ammoIcon);
-  }
-
-  // Show target hits/misses
-  var targets = game.getTargets();
-  for (var i = 0; i < game.getTargetsPerRound(); i++) {
-    var target = targets[i];
-    var targetIcon = targetElems[i];
-    targetIcon.classList.add('sprite', 'target');
-    if (target) {
-      targetIcon.classList.add('hit');
-    }
-    else {
-      targetIcon.classList.remove('hit');
-    }
-
-    if (i === targets.length) {
-      targetIcon.classList.add('current');
-    }
-    else {
-      targetIcon.classList.remove('current');
-    }
-  };
-
-  // Stop animating on game end
-  if (!game.isRunning()) {
-    stopGameTick();
-  }
-}
-
-// Update UI to match game state
-var updateUI = function() {
-  showDuck(game.getDuck());
-  showPlayerStats(game.getPlayers());
-  showGameStats(game);
-}
-
 // Register event handlers
 // Record player shot at click coordinates and
 // update game state
 screenElem.addEventListener('click', function(e) {
   // Prevent shoot from firing if message queue has messages
-  if (messages.length > 0 || alertVisible) {
+  if (messages.length > 0 || view.isAlertVisible()) {
     return;
   }
 
@@ -219,4 +113,4 @@ document.querySelector('#two-player-game-btn').addEventListener('click', functio
 });
 
 processMessageQueue();
-updateUI();
+view.updateUI(game);
