@@ -15,17 +15,27 @@ body {
 }
 
 a {
-  color: #FFF;
+  color: #DDD;
+  text-decoration: none;
 }
 
 a:hover {
   color: #888;
+  text-decoration: underline;
 }
 
 main {
   width: 80%;
   margin: 0 auto;
   text-align: center;
+}
+
+footer {
+  background-color: #000;
+  border-width: 1px;
+  border-style: solid;
+  color: #FFF;
+  padding: 5px 5px;
 }
 
 button {
