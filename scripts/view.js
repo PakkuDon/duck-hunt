@@ -27,11 +27,17 @@ var getView = function() {
     // Return game screen width/height
     getBounds: function() {
       return {
-        getWidth: function() {
-          return screenElem.offsetWidth;
+        left: function() {
+          return duckElem.clientWidth / 2;
         },
-        getHeight: function() {
-          return screenElem.offsetHeight;
+        top: function() {
+          return duckElem.clientHeight / 2;
+        },
+        right: function() {
+          return screenElem.offsetWidth - duckElem.clientWidth / 2;
+        },
+        bottom: function() {
+          return screenElem.offsetHeight * 0.7 - duckElem.clientHeight / 2;
         }
       };
     },

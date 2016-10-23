@@ -21,8 +21,8 @@ var newDuck = function(bounds) {
     },
     // Calculate initial coordinates and velocity
     spawn: function() {
-      x = Math.random() > 0.5 ? bounds.getWidth() : 0;
-      y = (Math.random() * bounds.getHeight() * 0.6);
+      x = Math.random() > 0.5 ? bounds.right() : bounds.left();
+      y = Math.random() * bounds.bottom();
       dx = 5;
       dy = -5;
     },
@@ -34,17 +34,22 @@ var newDuck = function(bounds) {
     // Sets duck's next position
     move: function() {
       // Change direction at boundary
-      if (x + dx > bounds.getWidth()) {
+      // Constrain duck position to bounds
+      if (x + dx > bounds.right()) {
+        x = bounds.right();
         dx = -Math.abs(dx);
       }
-      else if (x + dx < 0) {
+      else if (x + dx < bounds.left()) {
+        x = bounds.left();
         dx = Math.abs(dx);
       }
 
-      if (y + dy > bounds.getHeight() * 0.6) {
+      if (y + dy > bounds.bottom()) {
+        y = bounds.bottom()
         dy = -Math.abs(dy);
       }
-      else if (y + dy < 0) {
+      else if (y + dy < bounds.top()) {
+        y = bounds.top();
         dy = Math.abs(dy);
       }
 
