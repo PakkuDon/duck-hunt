@@ -54,10 +54,18 @@ var newDuckHuntGame = function(bounds) {
     getAmmoRemaining: function() {
       return ammoRemaining;
     },
+    getTargetValue: function() {
+      return TARGET_POINTS;
+    },
+    getBonusValue: function() {
+      return BONUS_POINTS;
+    },
     // Returns object containing current game state
     getState: function() {
       return {
-        players: players,
+        players: players.map(function(player) {
+          return player.getState();
+        }),
         currentPlayerNo: currentPlayerNo,
         round: round,
         ammoRemaining: ammoRemaining,

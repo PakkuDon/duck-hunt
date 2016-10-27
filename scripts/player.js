@@ -13,6 +13,13 @@ var newPlayer = function(name) {
     isPlaying: function() {
       return isPlaying;
     },
+    getState: function() {
+      return {
+        name: name,
+        score: score,
+        isPlaying: isPlaying
+      };
+    },
     setName: function(newName) {
       name = newName;
     },

@@ -85,8 +85,16 @@ screenElem.addEventListener('click', function(e) {
 
   // If player loses, show game over message
   if (previousState.isRunning
-    && !previousState.players[previousState.currentPlayerNo].isPlaying()) {
+    && !nextState.players[previousState.currentPlayerNo].isPlaying) {
     messages.push('Game Over');
+  }
+  // Display alert if player got bonus points
+  if (previousState.currentPlayerNo != -1) {
+    var scoreDiff = nextState.players[previousState.currentPlayerNo].score
+      - previousState.players[previousState.currentPlayerNo].score;
+    if (scoreDiff > game.getTargetValue()) {
+      messages.push('Bonus<br />' + game.getBonusValue());
+    }
   }
   // Show next round message
   if (previousState.round !== nextState.round) {
