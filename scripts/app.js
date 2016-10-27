@@ -10,11 +10,22 @@ var playerElems = document.querySelectorAll('.player');
 var view = getView();
 var game = newDuckHuntGame(view.getBounds());
 var messages = [];
-var intervalID;
+var animationID;
+var lastTick = Date.now();
 
 // Check if value is between min and max
 var isInRange = function(value, min, max) {
   return value >= min && value < max;
+}
+
+// Perform game tick
+var tick = function() {
+  if (Date.now() - lastTick >= game.getClockSpeed()) {
+    lastTick = Date.now();
+    game.tick();
+    view.updateUI(game);
+  }
+  animationID = requestAnimationFrame(tick);
 }
 
 // Initialise game with given number of players
@@ -46,15 +57,12 @@ var processMessageQueue = function() {
 
 // Start game animation
 var startGameTick = function() {
-  intervalID = setInterval(function() {
-    game.tick();
-    view.updateUI(game);
-  }, game.getClockSpeed());
+  animationID = requestAnimationFrame(tick);
 };
 
 // Stop game animation
 var stopGameTick = function() {
-  clearInterval(intervalID);
+  cancelAnimationFrame(animationID);
 }
 
 // Register event handlers
