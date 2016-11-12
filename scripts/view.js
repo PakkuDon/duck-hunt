@@ -112,7 +112,7 @@ var getView = function() {
           targetIcon.classList.remove('hit');
         }
 
-        if (i === targets.length) {
+        if (game.isRunning() && i === targets.length) {
           targetIcon.classList.add('current');
         }
         else {

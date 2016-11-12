@@ -180,8 +180,8 @@ button {
 
 .target.current {
   animation-name: blink;
-  animation-duration: 0.5s;
-  animation-timing-function: steps(1, start);
+  animation-duration: 1s;
+  animation-timing-function: cubic-bezier;
   animation-iteration-count: infinite;
 }
 
