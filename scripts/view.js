@@ -1,6 +1,6 @@
 var getView = function() {
   // View variables
-  var alertVisible = false;
+  var modalVisible = false;
 
   // Grab DOM elements
   var duckElem = document.querySelector('#duck');
@@ -12,17 +12,26 @@ var getView = function() {
   var ammoElem = document.querySelector('#ammo-remaining');
   var targetElems = document.querySelectorAll('.target');
   var alertElem = document.querySelector('#alert');
+  var instructionsElem = document.querySelector('#instructions');
 
   // Return available view methods
   return {
-    isAlertVisible: function() {
-      return alertVisible;
+    isModalVisible: function() {
+      return modalVisible;
     },
     // Update DOM to match game state
     updateUI: function(game) {
       this.showDuck(game.getDuck());
       this.showPlayerStats(game.getPlayers());
       this.showGameStats(game);
+    },
+    toggleInstructions: function() {
+      if (instructionsElem.classList.contains('hidden')) {
+        instructionsElem.classList.remove('hidden');
+      }
+      else {
+        instructionsElem.classList.add('hidden');
+      }
     },
     // Return game screen width/height
     getBounds: function() {
@@ -113,11 +122,11 @@ var getView = function() {
     },
     showAlert: function(message) {
       alertElem.innerHTML = message
-      alertVisible = true;
+      modalVisible = true;
     },
     clearAlert: function() {
       alertElem.innerHTML = '';
-      alertVisible = false;
+      modalVisible = false;
     }
   }
 }

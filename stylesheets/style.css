@@ -67,22 +67,44 @@ button {
   cursor: url('../images/cursor.png') 25 25, auto;
 }
 
-/* Alert modal */
-#alert {
+/* Modals */
+.modal {
   background-color: #000;
   color: #FFF;
   padding: 10px;
   border: 1px solid #FFF;
   position: absolute;
-  top: 25%;
-  width: 70%;
-  left: 15%;
 }
 
 /* Remove modal when empty */
-#alert:empty {
+.modal:empty {
   padding: 0px;
   border: none;
+}
+
+#alert {
+  top: 25%;
+  left: 15%;
+  width: 70%;
+}
+
+#instructions {
+  display: flex;
+  flex-direction: column;
+  top: 10%;
+  left: 10%;
+  width: 80%;
+  height: 80%;
+}
+
+#instructions.hidden {
+  display: none;
+}
+
+#instructions .contents {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  text-align: left;
 }
 
 /* Spritesheet */

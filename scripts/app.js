@@ -39,7 +39,7 @@ var startGame = function(noOfPlayers) {
 // before resuming
 var processMessageQueue = function() {
   setInterval(function() {
-    if (messages.length > 0 && !view.isAlertVisible()) {
+    if (messages.length > 0 && !view.isModalVisible()) {
       stopGameTick();
       var message = messages.shift();
       view.showAlert(message);
@@ -70,7 +70,7 @@ var stopGameTick = function() {
 // update game state
 screenElem.addEventListener('click', function(e) {
   // Prevent shoot from firing if message queue has messages
-  if (messages.length > 0 || view.isAlertVisible()) {
+  if (messages.length > 0 || view.isModalVisible()) {
     return;
   }
 
@@ -127,6 +127,12 @@ document.querySelector('#one-player-game-btn').addEventListener('click', functio
 document.querySelector('#two-player-game-btn').addEventListener('click', function() {
   startGame(2);
 });
+
+document.querySelector('#instructions-btn').addEventListener('click', function() {
+  view.toggleInstructions();
+});
+
+// Show instructions
 
 processMessageQueue();
 view.updateUI(game);

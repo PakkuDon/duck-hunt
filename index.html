@@ -35,6 +35,9 @@
         <section id="game-actions">
           <button type="button" id="one-player-game-btn">One Player</button>
           <button type="button" id="two-player-game-btn">Two Player</button>
+          <div>
+            <button type="button" id="instructions-btn">Instructions</button>
+          </div>
         </section>
         <section id="game-stats">
           <section id="round-details">
@@ -64,7 +67,19 @@
         <div id="screen">
           <div class="sprite horizontal" id="duck"></div>
           <div class="sprite" id="dog"></div>
-          <div id="alert"></div>
+          <div id="alert" class="modal"></div>
+          <div id="instructions" class="modal hidden">
+            Instructions
+            <div class="contents">
+              <ul>
+                <li>Hunt ducks as they fly around the marsh</li>
+                <li>You have three shots per duck. If all shots are unsuccessful the target is marked as a miss</li>
+                <li>Each round has 10 ducks each. You may advance to the next round if you shoot the required number of ducks</li>
+                <li>The ducks fly faster and the number of required targets increases in later rounds</li>
+                <li>Aim for the leaderboards</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </section>
       <footer>
