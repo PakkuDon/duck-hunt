@@ -7,6 +7,7 @@ var newDuckHuntGame = function(bounds) {
   var MAX_TARGETS = 10;
   var INITIAL_ROUND = 1;
   var INITIAL_CLOCK_SPEED = 100;
+  var ACCELERATION_RATE = 0.8;
 
   // General game properties
   var duck = newDuck(bounds);
@@ -178,9 +179,7 @@ var newDuckHuntGame = function(bounds) {
         if (this.getNextPlayer() !== -1
           && currentPlayerNo >= this.getNextPlayer()) {
           round++;
-          if (clockSpeed >= 10) {
-            clockSpeed -= 10;
-          }
+          clockSpeed *= ACCELERATION_RATE;
         }
         // Switch to next player
         currentPlayerNo = this.getNextPlayer();
