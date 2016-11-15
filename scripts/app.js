@@ -22,7 +22,40 @@ var isInRange = function(value, min, max) {
 var tick = function() {
   if (Date.now() - lastTick >= game.getClockSpeed()) {
     lastTick = Date.now();
+    // Dirty checking
+    // Report alert if changes detected between ticks
+    var previousState = game.getState();
     game.tick();
+    var nextState = game.getState();
+
+    // If player loses, show game over message
+    if (previousState.isRunning
+      && !nextState.players[previousState.currentPlayerNo].isPlaying) {
+      messages.push('Game Over');
+    }
+    // Display alert if player got bonus points
+    if (previousState.currentPlayerNo != -1) {
+      var scoreDiff = nextState.players[previousState.currentPlayerNo].score
+        - previousState.players[previousState.currentPlayerNo].score;
+      if (scoreDiff > game.getTargetValue()) {
+        messages.push('Bonus<br />' + game.getBonusValue());
+      }
+    }
+    // Show next round message
+    if (previousState.round !== nextState.round) {
+      messages.push('Round ' + nextState.round);
+    }
+    // Show player change message
+    if (previousState.currentPlayerNo !== nextState.currentPlayerNo
+      && nextState.currentPlayerNo !== -1) {
+      messages.push('Player ' + (nextState.currentPlayerNo + 1));
+    }
+    // If game has ended, display game result
+    if (previousState.isRunning && !nextState.isRunning) {
+      messages.push(game.getResult());
+    }
+
+    // Update UI
     view.updateUI(game);
   }
   animationID = requestAnimationFrame(tick);
@@ -74,41 +107,11 @@ screenElem.addEventListener('click', function(e) {
     return;
   }
 
+  // Otherwise, shoot at click coordinates
   var clickX = e.pageX - screenElem.offsetLeft;
   var clickY = e.pageY - screenElem.offsetTop;
 
-  // Dirty checking
-  // Report alert if changes detected between shots
-  var previousState = game.getState();
   game.shoot(clickX, clickY);
-  var nextState = game.getState();
-
-  // If player loses, show game over message
-  if (previousState.isRunning
-    && !nextState.players[previousState.currentPlayerNo].isPlaying) {
-    messages.push('Game Over');
-  }
-  // Display alert if player got bonus points
-  if (previousState.currentPlayerNo != -1) {
-    var scoreDiff = nextState.players[previousState.currentPlayerNo].score
-      - previousState.players[previousState.currentPlayerNo].score;
-    if (scoreDiff > game.getTargetValue()) {
-      messages.push('Bonus<br />' + game.getBonusValue());
-    }
-  }
-  // Show next round message
-  if (previousState.round !== nextState.round) {
-    messages.push('Round ' + nextState.round);
-  }
-  // Show player change message
-  if (previousState.currentPlayerNo !== nextState.currentPlayerNo
-    && nextState.currentPlayerNo !== -1) {
-    messages.push('Player ' + (nextState.currentPlayerNo + 1));
-  }
-  // If game has ended, display game result
-  if (previousState.isRunning && !nextState.isRunning) {
-    messages.push(game.getResult());
-  }
 });
 
 // Change selected player's name

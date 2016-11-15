@@ -1,8 +1,16 @@
+// Different states a duck can be in
+var DuckState = {
+  DEFAULT: {},
+  FLEE: {},
+  SHOT: {}
+};
+
 var newDuck = function(bounds) {
   var x;
   var y;
   var dx;
   var dy;
+  var state = DuckState.DEFAULT;
   var HITBOX_RADIUS = 30;
 
   // Create duck object
@@ -25,11 +33,17 @@ var newDuck = function(bounds) {
       y = Math.random() * bounds.bottom();
       dx = 5;
       dy = -5;
+      state = DuckState.DEFAULT;
     },
-    // Checks if x, y coordinates are within parrot's hitbox
-    isShot: function(shootX, shootY) {
-      return isInRange(shootX, x - HITBOX_RADIUS, x + HITBOX_RADIUS)
-        && isInRange(shootY, y - HITBOX_RADIUS, y + HITBOX_RADIUS);
+    // Change state if duck is shot
+    shoot: function(shootX, shootY) {
+      if (isInRange(shootX, x - HITBOX_RADIUS, x + HITBOX_RADIUS)
+        && isInRange(shootY, y - HITBOX_RADIUS, y + HITBOX_RADIUS)) {
+        state = DuckState.SHOT;
+      }
+    },
+    isShot: function() {
+      return state === DuckState.SHOT;
     },
     // Sets duck's next position
     move: function() {

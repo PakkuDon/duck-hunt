@@ -132,31 +132,15 @@ var newDuckHuntGame = function(bounds) {
     // Perform in-game tick
     tick: function() {
       duck.move();
-    },
-    // Shoot at given x,y fields and check duck for collision
-    // Updates ammo. Could cause target number, player number
-    // or round number change
-    shoot: function(x, y) {
-      if (!this.isRunning()) {
-        return;
-      }
-
-      // Check if duck has been hit
-      var isShot = duck.isShot(x, y);
-      // Update ammo remaining
-      ammoRemaining--;
 
       // If duck is hit, mark target as hit and update score
-      if (isShot) {
+      if (duck.isShot()) {
         players[currentPlayerNo].increaseScore(TARGET_POINTS);
         targets.push(true);
       }
-      // Deduct ammo on miss
-      else {
-        // If out of ammo, mark target as miss
-        if (ammoRemaining === 0) {
+      // If out of ammo, mark target as miss
+      else if (ammoRemaining === 0) {
           targets.push(false);
-        }
       }
 
       // If all targets exhausted, check if player has passed
@@ -189,13 +173,24 @@ var newDuckHuntGame = function(bounds) {
       }
 
       // Respawn duck and reload on end of target attempt
-      if ((isShot || ammoRemaining === 0)
+      if ((duck.isShot() || ammoRemaining === 0)
         && this.getNextPlayer() !== -1) {
         this.reload();
         duck.spawn();
       }
+    },
+    // Shoot at given x,y fields and check duck for collision
+    // Updates ammo. Could cause target number, player number
+    // or round number change
+    shoot: function(x, y) {
+      if (!this.isRunning()) {
+        return;
+      }
 
-      return isShot;
+      duck.shoot(x, y);
+
+      // Update ammo remaining
+      ammoRemaining--;
     }
   };
 };
