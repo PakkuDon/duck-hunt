@@ -131,7 +131,7 @@ var newDuckHuntGame = function(bounds) {
     },
     // Perform in-game tick
     tick: function() {
-      duck.move();
+      duck.update();
 
       // If all targets exhausted, check if player has passed
       if (targets.length >= MAX_TARGETS) {
@@ -163,7 +163,7 @@ var newDuckHuntGame = function(bounds) {
       }
 
       // If duck is hit, mark target as hit and update score
-      if (duck.isShot()) {
+      if (duck.isInState(DuckState.SHOT)) {
         players[currentPlayerNo].increaseScore(TARGET_POINTS);
         targets.push(true);
       }
@@ -173,7 +173,7 @@ var newDuckHuntGame = function(bounds) {
       }
 
       // Respawn duck and reload on end of target attempt
-      if ((duck.isShot() || ammoRemaining === 0)
+      if ((duck.isInState(DuckState.SHOT) || ammoRemaining === 0)
         && this.getNextPlayer() !== -1) {
         this.reload();
         duck.spawn();

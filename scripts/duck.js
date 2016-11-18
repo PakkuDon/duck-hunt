@@ -1,8 +1,44 @@
 // Different states a duck can be in
 var DuckState = {
-  DEFAULT: {},
-  FLEE: {},
-  SHOT: {}
+  DEFAULT: {
+    execute: function(duck) {
+      var bounds = duck.getBounds();
+
+      // Change direction at boundary
+      // Constrain duck position to bounds
+      if (duck.getX() + duck.getHorizontalSpeed() > bounds.right()) {
+        duck.setX(bounds.right());
+        duck.setHorizontalSpeed(-Math.abs(duck.getHorizontalSpeed()));
+      }
+      else if (duck.getX() + duck.getHorizontalSpeed() < bounds.left()) {
+        duck.setX(bounds.left());
+        duck.setHorizontalSpeed(Math.abs(duck.getHorizontalSpeed()));
+      }
+
+      if (duck.getY() + duck.getVerticalSpeed() > bounds.bottom()) {
+        duck.setY(bounds.bottom());
+        duck.setVerticalSpeed(-Math.abs(duck.getVerticalSpeed()));
+      }
+      else if (duck.getY() + duck.getVerticalSpeed() < bounds.top()) {
+        duck.setY(bounds.top());
+        duck.setVerticalSpeed(Math.abs(duck.getVerticalSpeed()));
+      }
+
+      // Calculate next x,y coordinates
+      duck.setX(duck.getX() + duck.getHorizontalSpeed());
+      duck.setY(duck.getY() + duck.getVerticalSpeed());
+    }
+  },
+  FLEE: {
+    execute: function(duck) {
+
+    }
+  },
+  SHOT: {
+    execute: function(duck) {
+
+    }
+  }
 };
 
 var newDuck = function(bounds) {
@@ -10,7 +46,7 @@ var newDuck = function(bounds) {
   var y;
   var dx;
   var dy;
-  var state = DuckState.DEFAULT;
+  var currentState = DuckState.DEFAULT;
   var HITBOX_RADIUS = 30;
 
   // Create duck object
@@ -21,11 +57,26 @@ var newDuck = function(bounds) {
     getY: function() {
       return y;
     },
+    setX: function(newX) {
+      x = newX;
+    },
+    setY: function(newY) {
+      y = newY;
+    },
     getHorizontalSpeed: function() {
       return dx;
     },
     getVerticalSpeed: function() {
       return dy;
+    },
+    setHorizontalSpeed: function(speed) {
+      dx = speed;
+    },
+    setVerticalSpeed: function(speed) {
+      dy = speed;
+    },
+    getBounds: function() {
+      return bounds;
     },
     // Calculate initial coordinates and velocity
     spawn: function() {
@@ -33,43 +84,25 @@ var newDuck = function(bounds) {
       y = Math.random() * bounds.bottom();
       dx = 5;
       dy = -5;
-      state = DuckState.DEFAULT;
+      currentState = DuckState.DEFAULT;
     },
-    // Change state if duck is shot
+    // Change currentState if duck is shot
     shoot: function(shootX, shootY) {
       if (isInRange(shootX, x - HITBOX_RADIUS, x + HITBOX_RADIUS)
         && isInRange(shootY, y - HITBOX_RADIUS, y + HITBOX_RADIUS)) {
-        state = DuckState.SHOT;
+        currentState = DuckState.SHOT;
       }
     },
-    isShot: function() {
-      return state === DuckState.SHOT;
+    // Set current state to given state
+    changeState: function(nextState) {
+      currentState = nextState;
     },
-    // Sets duck's next position
-    move: function() {
-      // Change direction at boundary
-      // Constrain duck position to bounds
-      if (x + dx > bounds.right()) {
-        x = bounds.right();
-        dx = -Math.abs(dx);
-      }
-      else if (x + dx < bounds.left()) {
-        x = bounds.left();
-        dx = Math.abs(dx);
-      }
-
-      if (y + dy > bounds.bottom()) {
-        y = bounds.bottom()
-        dy = -Math.abs(dy);
-      }
-      else if (y + dy < bounds.top()) {
-        y = bounds.top();
-        dy = Math.abs(dy);
-      }
-
-      // Calculate next x,y coordinates
-      x += dx;
-      y += dy;
+    // Return true if current state is given state
+    isInState: function(state) {
+      return currentState === state;
+    },
+    update: function() {
+      currentState.execute(this);
     }
   }
 };
