@@ -45,8 +45,9 @@ var tick = function() {
     if (previousState.round !== nextState.round) {
       messages.push('Round ' + nextState.round);
     }
-    // Show player change message
-    if (previousState.currentPlayerNo !== nextState.currentPlayerNo
+    // Show player number at start of player turn
+    if ((previousState.currentPlayerNo !== nextState.currentPlayerNo
+      || previousState.round !== nextState.round)
       && nextState.currentPlayerNo !== -1) {
       messages.push('Player ' + (nextState.currentPlayerNo + 1));
     }
@@ -65,6 +66,8 @@ var tick = function() {
 var startGame = function(noOfPlayers) {
   game.start(noOfPlayers);
   stopGameTick();
+  messages.push('Round 1');
+  messages.push('Player 1');
   startGameTick();
 }
 
