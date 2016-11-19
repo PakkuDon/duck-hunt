@@ -48,6 +48,7 @@ var newDuck = function(bounds) {
   var dy;
   var currentState = DuckState.DEFAULT;
   var HITBOX_RADIUS = 30;
+  var SPEED = 5;
 
   // Create duck object
   return {
@@ -80,10 +81,16 @@ var newDuck = function(bounds) {
     },
     // Calculate initial coordinates and velocity
     spawn: function() {
-      x = Math.random() > 0.5 ? bounds.right() : bounds.left();
+      if (Math.random() > 0.5) {
+        x = bounds.right();
+        dx = -SPEED;
+      }
+      else {
+        x = bounds.left();
+        dx = SPEED;
+      }
       y = Math.random() * bounds.bottom();
-      dx = 5;
-      dy = -5;
+      dy = Math.random() > 0.5 ? -SPEED : SPEED;
       currentState = DuckState.DEFAULT;
     },
     // Change currentState if duck is shot
