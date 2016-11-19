@@ -31,12 +31,14 @@ var DuckState = {
   },
   FLEE: {
     execute: function(duck) {
-
+      // Exit screen
+      duck.setY(duck.getY() - duck.getBaseSpeed() * 2);
     }
   },
   SHOT: {
     execute: function(duck) {
-
+      // Fall to bottom of screen on hit
+      duck.setY(duck.getY() + duck.getBaseSpeed());
     }
   }
 };
@@ -63,6 +65,9 @@ var newDuck = function(bounds) {
     },
     setY: function(newY) {
       y = newY;
+    },
+    getBaseSpeed: function() {
+      return SPEED;
     },
     getHorizontalSpeed: function() {
       return dx;
