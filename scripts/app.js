@@ -117,14 +117,6 @@ screenElem.addEventListener('click', function(e) {
   game.shoot(clickX, clickY);
 });
 
-// Change selected player's name
-playerElems.forEach(function(playerElem, index) {
-  var nameInput = playerElem.querySelector('.name');
-  nameInput.addEventListener('input', function(e) {
-    game.getPlayers()[index].setName(nameInput.value);
-  })
-});
-
 // Start game with set number of players
 document.querySelector('#one-player-game-btn').addEventListener('click', function() {
   startGame(1);
@@ -134,11 +126,10 @@ document.querySelector('#two-player-game-btn').addEventListener('click', functio
   startGame(2);
 });
 
+// Show instructions
 document.querySelector('#instructions-btn').addEventListener('click', function() {
   view.toggleInstructions();
 });
-
-// Show instructions
 
 processMessageQueue();
 view.updateUI(game);

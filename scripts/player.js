@@ -1,12 +1,8 @@
-var newPlayer = function(name) {
-  var name = name || '';
+var newPlayer = function() {
   var score = 0;
   var isPlaying = false;
 
   return {
-    getName: function() {
-      return name;
-    },
     getScore: function() {
       return score;
     },
@@ -15,13 +11,9 @@ var newPlayer = function(name) {
     },
     getState: function() {
       return {
-        name: name,
         score: score,
         isPlaying: isPlaying
       };
-    },
-    setName: function(newName) {
-      name = newName;
     },
     resetScore: function() {
       score = 0;

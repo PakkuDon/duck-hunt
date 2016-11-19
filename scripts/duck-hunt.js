@@ -95,7 +95,7 @@ var newDuckHuntGame = function(bounds) {
       else {
         var winner = leadPlayers[0];
         var playerNo = players.indexOf(winner);
-        return 'Player ' + (playerNo + 1) + ' ' + winner.getName() + ' wins';
+        return 'Player ' + (playerNo + 1) + ' wins';
       }
     },
     getTargetsPerRound: function() {
