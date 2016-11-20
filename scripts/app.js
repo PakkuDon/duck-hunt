@@ -64,6 +64,10 @@ var tick = function() {
 
 // Initialise game with given number of players
 var startGame = function(noOfPlayers) {
+  if (view.isInstructionsVisible()) {
+    return;
+  }
+  
   game.start(noOfPlayers);
   stopGameTick();
   messages.push('Round 1');
@@ -126,9 +130,21 @@ document.querySelector('#two-player-game-btn').addEventListener('click', functio
   startGame(2);
 });
 
-// Show instructions
+// Toggle instructions
+// Pause game when instructions shown
 document.querySelector('#instructions-btn').addEventListener('click', function() {
-  view.toggleInstructions();
+  if (view.isModalVisible()) {
+    return;
+  }
+
+  if (view.isInstructionsVisible()) {
+    view.setInstructionsVisible(false);
+    startGameTick();
+  }
+  else {
+    view.setInstructionsVisible(true);
+    stopGameTick();
+  }
 });
 
 processMessageQueue();

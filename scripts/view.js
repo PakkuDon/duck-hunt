@@ -1,6 +1,7 @@
 var getView = function() {
   // View variables
   var modalVisible = false;
+  var instructionsVisible = false;
 
   // Grab DOM elements
   var duckElem = document.querySelector('#duck');
@@ -19,19 +20,25 @@ var getView = function() {
     isModalVisible: function() {
       return modalVisible;
     },
+    isInstructionsVisible: function() {
+      return instructionsVisible;
+    },
     // Update DOM to match game state
     updateUI: function(game) {
       this.showDuck(game.getDuck());
       this.showPlayerStats(game.getPlayers());
       this.showGameStats(game);
     },
-    toggleInstructions: function() {
-      if (instructionsElem.classList.contains('hidden')) {
+    // Show / hide instructions
+    setInstructionsVisible: function(isVisible) {
+      if (isVisible) {
         instructionsElem.classList.remove('hidden');
       }
       else {
         instructionsElem.classList.add('hidden');
       }
+
+      instructionsVisible = isVisible;
     },
     // Return game screen width/height
     getBounds: function() {
