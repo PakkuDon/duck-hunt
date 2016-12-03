@@ -13,7 +13,7 @@ var scoreBoard = (function() {
       if (scores.length < SCORE_LIMIT) {
         return true;
       }
-      return scores[score.length - 1].score < score;
+      return scores[scores.length - 1].score < score;
     },
     // Add score to leaderboard if high score
     addRecord: function(name, score) {
@@ -21,12 +21,17 @@ var scoreBoard = (function() {
         return;
       }
       // Find position to insert score
-      for (var i = scores.length - 1; i >= 0; i++) {
-        if (scores[i].score > score) {
+      for (var i = scores.length; i >= 1; i--) {
+        if (scores[i - 1].score > score) {
           break;
         }
       }
       scores.splice(i, 0, { name: name, score: score });
+
+      // Trim excess entries
+      if (scores.length > SCORE_LIMIT) {
+        scores.pop();
+      }
     }
   }
 })();
